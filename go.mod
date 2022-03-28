@@ -3,7 +3,6 @@ module github.com/ciiiii/kube-proxyCommand
 go 1.17
 
 require (
-	github.com/pkg/errors v0.9.1
 	k8s.io/api v0.23.4
 	k8s.io/apimachinery v0.23.4
 	k8s.io/client-go v0.23.4
