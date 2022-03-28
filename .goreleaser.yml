@@ -1,0 +1,107 @@
+project_name: kube-proxyCommand
+
+env:
+  - GO111MODULE=on
+  - CGO_ENABLED=0
+
+gomod:
+  proxy: true
+
+before:
+  hooks:
+    - go mod tidy
+    - go mod download
+
+builds:
+  - id: linux-amd64
+    binary: kube-proxyCommand
+    main: ./main.go
+    goos:
+      - linux
+    goarch:
+      - amd64
+    ldflags:
+      - -s -w
+
+  - id: darwin-amd64
+    binary: kube-proxyCommand
+    main: ./main.go
+    goos:
+      - darwin
+    goarch:
+      - amd64
+    ldflags:
+      - -s -w
+  
+  - id: darwin-arm64
+    binary: kube-proxyCommand
+    main: ./main.go
+    goos:
+      - darwin
+    goarch:
+      - arm64
+    ldflags:
+      - -s -w
+
+  - id: windows-amd64
+    binary: kube-proxyCommand
+    main: ./main.go
+    goos:
+      - windows
+    goarch:
+      - amd64
+    ldflags:
+      - -s -w
+      - -buildmode=exe
+
+brews:
+  - tap:
+      owner: ciiiii
+      name: homebrew-tap
+    folder: Formula
+    homepage: https://github.com/ciiiii/kube-proxyCommand
+    description: kube-proxyCommand use Kubernetes Pod port-forward as ssh ProxyCommand
+    license: MIT
+    dependencies:
+      - name: go
+        type: optional
+      - name: git
+    install: |-
+      if build.head?
+        ldflags = %@[
+          -s -w
+        ]
+        system "go", "build", *std_go_args(output: "kube-proxyCommand", ldflags: ldflags.join(" ")), "main.go"
+      end
+      bin.install "kube-proxyCommand"
+    custom_block: |
+      head: "https://github.com/ciiiii/kube-proxyCommand", branch: "master"
+      head do
+        depends_on "go" => :build
+      end
+
+archives:
+  - replacements:
+      darwin: Darwin
+      linux: Linux
+      windows: Windows
+      386: i386
+      amd64: x86_64
+    name_template: '{{.ProjectName}}_{{.Version}}_{{.Os}}-{{.Arch}}'
+
+checksum:
+  name_template: "{{ .ProjectName }}_checksums.txt"
+
+changelog:
+  use: github
+  sort: asc
+  filters:
+    exclude:
+      - '.*README.*'
+      - Merge pull request
+      - Merge branch
+
+release:
+  github:
+    owner: ciiiii
+    name: kube-proxyCommand
