@@ -4,6 +4,8 @@ on:
   push:
     paths-ignore:
       - 'README.md'
+    tags-ignore:
+      - 'v*'
   
 jobs:
   test:
