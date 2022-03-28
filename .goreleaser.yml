@@ -73,7 +73,7 @@ brews:
       end
       bin.install "kube-proxyCommand"
     custom_block: |
-      head: "https://github.com/ciiiii/kube-proxyCommand", branch: "master"
+      head "https://github.com/ciiiii/kube-proxyCommand", branch: "master"
       head do
         depends_on "go" => :build
       end
