@@ -66,7 +66,7 @@ brews:
       - name: git
     install: |-
       if build.head?
-        ldflags = %@[
+        ldflags = %W[
           -s -w
         ]
         system "go", "build", *std_go_args(output: "kube-proxyCommand", ldflags: ldflags.join(" ")), "main.go"
@@ -91,7 +91,7 @@ checksum:
   name_template: "{{ .ProjectName }}_checksums.txt"
 
 changelog:
-  use: github
+  use: git
   sort: asc
   filters:
     exclude:
