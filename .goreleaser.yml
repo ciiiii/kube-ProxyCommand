@@ -53,7 +53,8 @@ builds:
       - -buildmode=exe
 
 brews:
-  - tap:
+  - name: kube-proxy-command
+    tap:
       owner: ciiiii
       name: homebrew-tap
     folder: Formula
