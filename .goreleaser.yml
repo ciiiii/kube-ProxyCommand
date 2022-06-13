@@ -53,7 +53,7 @@ builds:
       - -buildmode=exe
 
 brews:
-  - name: kube-proxy-command
+  - name: kube-proxycommand
     tap:
       owner: ciiiii
       name: homebrew-tap
